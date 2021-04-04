@@ -1,5 +1,6 @@
 {% include 'pages/base.html' %} {% block content %}
 
+<h2 class="container fw-bold mt-2 text-center alert alert-primary">TweetMe</h2>
 <form id="tweet__form" method="POST" action="#">
   {% csrf_token %}
   <div class="container pt-4 d-flex flex-column">
@@ -13,7 +14,8 @@
   </div>
 </form>
 
-<div id="home__view" class="container-fluid border border-danger mt-4"></div>
+<!--Main Card-->
+<div id="home__view" class="container mt-4"></div>
 {% endblock content %}
 
 <script>
@@ -25,7 +27,14 @@
       success: (response) => {
         output = "";
         for (tweet in response) {
-          output += "<h1>" + response[tweet].content + "</h1>";
+          output +=
+            "<div class='card m-4'><div class='card-header'>" +
+            "User Posted" +
+            "</div><div class='card-body'><a href='#' class='fw-bold card-title text-dark text-decoration-none'>" +
+            response[tweet].content +
+            "</a><p></p><a href='#' class='btn btn-primary'>" +
+            "Like" +
+            "</a></div></div>";
         }
         $("#home__view").html(output);
       },
@@ -49,7 +58,14 @@
           success: (response) => {
             output = "";
             for (tweet in response) {
-              output += "<h1>" + response[tweet].content + "</h1>";
+              output +=
+                "<div class='card m-2'><div class='card-header'>" +
+                "User Posted" +
+                "</div><div class='card-body'><h5 class='card-title'>" +
+                response[tweet].content +
+                "</h5><a href='#' class='btn btn-primary'>" +
+                "Like" +
+                "</a></div></div>";
             }
             $("#home__view").html(output);
             $("#tweet__form").trigger("reset");

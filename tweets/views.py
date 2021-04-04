@@ -23,7 +23,7 @@ def tweet_list_view(request):
         serializer = TweetSerializer(all_tweets, many=True)
         return JsonResponse(data=serializer.data, safe=False, status=status.HTTP_200_OK)
 
-    if request.method == "POST" and request.is_ajax():
+    elif request.method == "POST" and request.is_ajax():
         sent_data = request.POST.get('content', None)
         make_obj = {"content": sent_data}
         serializer = TweetSerializer(data=make_obj)
