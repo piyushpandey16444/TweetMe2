@@ -3,6 +3,7 @@ from django.http import JsonResponse
 from rest_framework import status
 from .serializers import TweetSerializer
 from .models import Tweet
+import json
 from django.views.decorators.csrf import csrf_exempt
 
 
@@ -17,9 +18,21 @@ def tweet_list_view(request):
     """
     REST API view for all tweets.
     """
-    all_tweets = get_list_or_404(Tweet)
-    serializer = TweetSerializer(all_tweets, many=True)
-    return JsonResponse(data=serializer.data, safe=False, status=status.HTTP_200_OK)
+    if request.method == "GET":
+        all_tweets = get_list_or_404(Tweet)
+        serializer = TweetSerializer(all_tweets, many=True)
+        return JsonResponse(data=serializer.data, safe=False, status=status.HTTP_200_OK)
+
+    if request.method == "POST" and request.is_ajax():
+        sent_data = request.POST.get('content', None)
+        make_obj = {"content": sent_data}
+        serializer = TweetSerializer(data=make_obj)
+        if serializer.is_valid():
+            serializer.save()
+            all_tweets = get_list_or_404(Tweet)
+            serializer = TweetSerializer(all_tweets, many=True)
+            return JsonResponse(data=serializer.data, safe=False, status=status.HTTP_200_OK)
+        return JsonResponse(data=serializer.errors)
 
 
 @csrf_exempt
