@@ -5,6 +5,9 @@ name = "pypi"
 
 [packages]
 django = "==2.2"
+autopep8 = "*"
+pylint-django = "*"
+pylint = "*"
 
 [dev-packages]
 
