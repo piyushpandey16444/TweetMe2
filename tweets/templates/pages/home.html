@@ -1,0 +1,53 @@
+{% include 'pages/base.html' %} {% block content %}
+
+<form method="POST" action="#">
+  {% csrf_token %}
+  <div class="container pt-4 d-flex flex-column">
+    <textarea name="" id="tweet__dt" cols="100" rows="4"></textarea>
+    <input
+      id="form__submit"
+      type="submit"
+      value="Tweet"
+      class="btn btn-primary btn-lg mt-3 rounded"
+    />
+  </div>
+</form>
+
+<div id="home__view" class="container-fluid border border-danger mt-4"></div>
+{% endblock content %}
+
+<script>
+  $(document).ready(() => {
+    $.ajax({
+      method: "GET",
+      url: "{% url 'tweet-list' %}",
+      dataType: "json",
+      success: (response) => {
+        output = "";
+        for (tweet in response) {
+          output += "<h1>" + response[tweet].content + "</h1>";
+        }
+        $("#home__view").html(output);
+      },
+    });
+
+    // form submit
+    $("#form__submit").click((e) => {
+      e.preventDefault();
+      const inputData = $("#tweet__dt").val();
+      if (inputData == "") {
+        alert("Enter Tweet !");
+      } else {
+        json_dt = {
+          tweet: inputData,
+        };
+        $.ajax({
+          method: "POST",
+          url: "{% url 'tweet-list' %}",
+          data: json_dt,
+          dataTy,
+        });
+      }
+    });
+  });
+</script>
