@@ -19,6 +19,20 @@
 {% endblock content %}
 
 <script>
+  const handleLikeBtn = (tweet_id) => {
+    console.log("tweet: ", tweet_id);
+  };
+
+  const likeButton = (tweet_id, likesCount) => {
+    return (
+      "<button class='btn btn-primary' onclick=handleLikeBtn(" +
+      tweet_id +
+      ")> " +
+      likesCount +
+      " Like</button>"
+    );
+  };
+
   $(document).ready(() => {
     $.ajax({
       method: "GET",
@@ -32,9 +46,9 @@
             "User Posted" +
             "</div><div class='card-body'><a href='#' class='fw-bold card-title text-dark text-decoration-none'>" +
             response[tweet].content +
-            "</a><p></p><a href='#' class='btn btn-primary'>" +
-            "Like" +
-            "</a></div></div>";
+            "</a><p></p>" +
+            likeButton(response[tweet].id, response[tweet].count) +
+            "</div></div>";
         }
         $("#home__view").html(output);
       },
@@ -59,13 +73,13 @@
             output = "";
             for (tweet in response) {
               output +=
-                "<div class='card m-2'><div class='card-header'>" +
+                "<div class='card m-4'><div class='card-header'>" +
                 "User Posted" +
-                "</div><div class='card-body'><h5 class='card-title'>" +
+                "</div><div class='card-body'><a href='#' class='fw-bold card-title text-dark text-decoration-none'>" +
                 response[tweet].content +
-                "</h5><a href='#' class='btn btn-primary'>" +
-                "Like" +
-                "</a></div></div>";
+                "</a><p></p>" +
+                likeButton(response[tweet].id, response[tweet].count) +
+                "</div></div>";
             }
             $("#home__view").html(output);
             $("#tweet__form").trigger("reset");
