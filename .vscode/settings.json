@@ -15,5 +15,8 @@
     "editor.defaultFormatter": null
   },
   "python.formatting.blackArgs": ["--line-length", "120"],
-  "python.formatting.provider": "autopep8"
+  "python.formatting.provider": "autopep8",
+  "python.analysis.extraPaths": [
+    "C:\\Users\\HP\\.virtualenvs\\TweetMe2-VDbE-ier\\Scripts\\python.exe"
+  ]
 }
